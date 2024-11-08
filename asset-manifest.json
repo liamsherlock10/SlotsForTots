@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/SlotsForTots/static/css/main.a93c4c46.css",
+    "main.js": "/SlotsForTots/static/js/main.c4a59608.js",
+    "static/js/453.d6d6dd09.chunk.js": "/SlotsForTots/static/js/453.d6d6dd09.chunk.js",
+    "index.html": "/SlotsForTots/index.html",
+    "main.a93c4c46.css.map": "/SlotsForTots/static/css/main.a93c4c46.css.map",
+    "main.c4a59608.js.map": "/SlotsForTots/static/js/main.c4a59608.js.map",
+    "453.d6d6dd09.chunk.js.map": "/SlotsForTots/static/js/453.d6d6dd09.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a93c4c46.css",
+    "static/js/main.c4a59608.js"
+  ]
+}
