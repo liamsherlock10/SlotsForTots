@@ -4,7 +4,7 @@ import './App.css';
 
 const App = () => {
   return (
-    <Router>
+    <Router basename= "/SlotsForTots">
       <Routes>
         <Route path= "/" element={<Home />} >/</Route>
       </Routes>
