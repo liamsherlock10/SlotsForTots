@@ -1,6 +1,7 @@
 import React from 'react';
 import "../Styles/Home.css"
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Home = () =>{
     /*Setting all of the states that will be used throughout the betting program */
@@ -27,7 +28,6 @@ const Home = () =>{
     }
 
 
-
     return(
         <>
         {/*Title and label at top of page*/}
@@ -51,6 +51,12 @@ const Home = () =>{
         <h3>{change}</h3>
         <h3>{total}</h3>
 
+        <Link to="/Login">
+            <button>Go to Login Page</button>
+        </Link>
+        <Link to="/CreateAccount">
+            <button>Go to Create Account Page</button>
+        </Link>
 
         </>
     )
