@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/SlotsForTots/static/css/main.17229a59.css",
-    "main.js": "/SlotsForTots/static/js/main.d0bcf6d6.js",
+    "main.css": "/SlotsForTots/static/css/main.54d4784e.css",
+    "main.js": "/SlotsForTots/static/js/main.24bbc383.js",
     "static/js/453.d6d6dd09.chunk.js": "/SlotsForTots/static/js/453.d6d6dd09.chunk.js",
     "index.html": "/SlotsForTots/index.html",
-    "main.17229a59.css.map": "/SlotsForTots/static/css/main.17229a59.css.map",
-    "main.d0bcf6d6.js.map": "/SlotsForTots/static/js/main.d0bcf6d6.js.map",
+    "main.54d4784e.css.map": "/SlotsForTots/static/css/main.54d4784e.css.map",
+    "main.24bbc383.js.map": "/SlotsForTots/static/js/main.24bbc383.js.map",
     "453.d6d6dd09.chunk.js.map": "/SlotsForTots/static/js/453.d6d6dd09.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.17229a59.css",
-    "static/js/main.d0bcf6d6.js"
+    "static/css/main.54d4784e.css",
+    "static/js/main.24bbc383.js"
   ]
 }
