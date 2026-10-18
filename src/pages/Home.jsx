@@ -3,7 +3,7 @@ import "../Styles/Home.css"
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 //Note: this newest version is pushed to github but not online yet.
-const Home = () =>{
+const Home = ({ total, setTotal }) =>{
     /*Setting all of the states that will be used throughout the betting program */
     /*Problem: when I go off this page to login or create account, get back to a net 0
     That said, I don't rly think we need to address this bc the database will
@@ -13,11 +13,18 @@ const Home = () =>{
     const [current_bet, setCurrent_bet] = useState(0);
     const [status, setStatus] = useState('');
     const [change, setChange] = useState(0);
-    const [total, setTotal] = useState(0);
 
     /*This is the RunGame function that does all of the work when bet is cast */
     const RunGame = (amount) => {
         const numericAmount = Number(amount);
+        if (!(numericAmount > 0)){
+            setStatus("Enter a bet greater than 0!")
+            return
+        }
+        if (numericAmount > total){
+            setStatus("You can't bet more than you have!")
+            return
+        }
         const chance = Math.random()
         if (chance > 0.5){
             setStatus("WIN")

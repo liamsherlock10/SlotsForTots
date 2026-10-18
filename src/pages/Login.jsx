@@ -20,8 +20,11 @@ const Login = () => {
         <form onSubmit={handleLogin}>
             <input
             type="text"
+            placeholder="Username"
             value={username}
-            >Balls</input>
+            onChange={(e) => setUsername(e.target.value)}
+            />
+            <button type="submit">Login</button>
         </form>
         <h2>{loginMessage}</h2>
         <Link to="/">

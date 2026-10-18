@@ -15,7 +15,12 @@ const CreateAccount = () => {
         <>
         {/*GOtta make these buttons next to each other and spaced out
         (CSS issue)*/}
-        <form onSubmit={setCreateAccountMessage("success!")}>
+        <form
+            onSubmit={(event) => {
+                event.preventDefault();
+                setCreateAccountMessage("success!");
+            }}
+        >
         <input
             placeholder="Username"
             value={username}
