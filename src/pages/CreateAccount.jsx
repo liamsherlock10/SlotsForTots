@@ -20,7 +20,7 @@ const CreateAccount = ({ onAuth }) => {
         try {
             const data = await register(username, password);
             onAuth(data);
-            navigate("/");
+            navigate("/play");
         } catch (error) {
             setCreateAccountMessage(error.message);
         }
@@ -53,10 +53,10 @@ const CreateAccount = ({ onAuth }) => {
         <button type="submit">Create Account!</button>
         </form>
 
-        <Link to="/Login">
+        <Link to="/">
             <button>Return to Login</button>
         </Link>
-        <Link to="/">
+        <Link to="/play">
             <button>Play as guest</button>
         </Link>
         </>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import CreateAccount from './pages/CreateAccount';
 import Login from './pages/Login';
@@ -45,12 +45,14 @@ const App = () => {
   }, []);
 
   //go over the routing in this file, doesn't make full sense to me.
+  //HashRouter keeps the page in the URL after a #, so refreshing works on GitHub Pages
   return (
-    <Router basename= "/SlotsForTots">
+    <Router>
       <Routes>
-        <Route path="/" element={<Home total={total} setTotal={setTotal} token={token} username={username} logout={logout} />} />
+        {/*The login page is the front door; the game lives at /play*/}
+        <Route path="/" element={<Login onAuth={handleAuth} token={token} />} />
+        <Route path="/play" element={<Home total={total} setTotal={setTotal} token={token} username={username} logout={logout} />} />
         <Route path="/CreateAccount" element={<CreateAccount onAuth={handleAuth} />} />
-        <Route path="/Login" element={<Login onAuth={handleAuth} />} />
         <Route path="/MakeMoney" element={<MakeMoney total={total} setTotal={setTotal} token={token} />} />
       </Routes>
     </Router>

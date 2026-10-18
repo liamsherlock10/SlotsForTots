@@ -30,7 +30,7 @@ const MakeMoney = ({ total, setTotal, token }) => {
         <button onClick={handleClick}>Click for $1</button>
         <h3>{error}</h3>
 
-        <Link to="/">
+        <Link to="/play">
             <button>Back to main game</button>
         </Link>
         </>

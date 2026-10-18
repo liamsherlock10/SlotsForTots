@@ -1,7 +1,7 @@
 import React from 'react';
 import "../Styles/Home.css"
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { placeBet } from '../api';
 //Note: this newest version is pushed to github but not online yet.
 const Home = ({ total, setTotal, token, username, logout }) =>{
@@ -14,6 +14,7 @@ const Home = ({ total, setTotal, token, username, logout }) =>{
     const [current_bet, setCurrent_bet] = useState(0);
     const [status, setStatus] = useState('');
     const [change, setChange] = useState(0);
+    const navigate = useNavigate();
 
     /*This is the RunGame function that does all of the work when bet is cast */
     const RunGame = async (amount) => {
@@ -83,11 +84,11 @@ const Home = ({ total, setTotal, token, username, logout }) =>{
         {token ? (
             <>
             <h3>Logged in as {username}</h3>
-            <button onClick={logout}>Log Out</button>
+            <button onClick={() => { logout(); navigate("/"); }}>Log Out</button>
             </>
         ) : (
             <>
-            <Link to="/Login">
+            <Link to="/">
                 <button>Go to Login Page</button>
             </Link>
             <Link to="/CreateAccount">

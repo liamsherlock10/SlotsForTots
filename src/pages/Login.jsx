@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { login } from '../api';
 
-const Login = ({ onAuth }) => {
+const Login = ({ onAuth, token }) => {
     const [loginMessage, setLoginMessage] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -14,14 +14,20 @@ const Login = ({ onAuth }) => {
         try {
             const data = await login(username, password);
             onAuth(data);
-            navigate("/");
+            navigate("/play");
         } catch (error) {
             setLoginMessage(error.message);
         }
     };
 
+    /*Already logged in? Skip straight to the game*/
+    if (token) {
+        return <Navigate to="/play" />;
+    }
+
     return(
         <>
+        <h1 className="title">Slots For Tots</h1>
         <form onSubmit={handleLogin}>
             <input
             type="text"
@@ -41,8 +47,8 @@ const Login = ({ onAuth }) => {
         <Link to="/CreateAccount">
             <button>Create an Account</button>
         </Link>
-        <Link to="/">
-            <button>Home</button>
+        <Link to="/play">
+            <button>Play as Guest</button>
         </Link>
         </>
     )
