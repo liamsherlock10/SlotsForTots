@@ -2,8 +2,9 @@ import React from 'react';
 import "../Styles/Home.css"
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { placeBet } from '../api';
 //Note: this newest version is pushed to github but not online yet.
-const Home = ({ total, setTotal }) =>{
+const Home = ({ total, setTotal, token, username, logout }) =>{
     /*Setting all of the states that will be used throughout the betting program */
     /*Problem: when I go off this page to login or create account, get back to a net 0
     That said, I don't rly think we need to address this bc the database will
@@ -15,7 +16,7 @@ const Home = ({ total, setTotal }) =>{
     const [change, setChange] = useState(0);
 
     /*This is the RunGame function that does all of the work when bet is cast */
-    const RunGame = (amount) => {
+    const RunGame = async (amount) => {
         const numericAmount = Number(amount);
         if (!(numericAmount > 0)){
             setStatus("Enter a bet greater than 0!")
@@ -25,6 +26,20 @@ const Home = ({ total, setTotal }) =>{
             setStatus("You can't bet more than you have!")
             return
         }
+        /*Logged in players bet through the server so their money gets saved*/
+        if (token){
+            try {
+                const result = await placeBet(token, numericAmount)
+                setStatus(result.won ? "WIN" : "LOSE")
+                setChange(result.change)
+                setTotal(result.user.money)
+                setCurrent_bet(numericAmount)
+            } catch (error) {
+                setStatus(error.message)
+            }
+            return
+        }
+        /*Guests play locally and their money resets on refresh*/
         const chance = Math.random()
         if (chance > 0.5){
             setStatus("WIN")
@@ -65,12 +80,21 @@ const Home = ({ total, setTotal }) =>{
         <h3>{change}</h3>
         <h3>{total}</h3>
 
-        <Link to="/Login">
-            <button>Go to Login Page</button>
-        </Link>
-        <Link to="/CreateAccount">
-            <button>Go to Create Account Page</button>
-        </Link>
+        {token ? (
+            <>
+            <h3>Logged in as {username}</h3>
+            <button onClick={logout}>Log Out</button>
+            </>
+        ) : (
+            <>
+            <Link to="/Login">
+                <button>Go to Login Page</button>
+            </Link>
+            <Link to="/CreateAccount">
+                <button>Go to Create Account Page</button>
+            </Link>
+            </>
+        )}
 
         </>
     )
