@@ -1,19 +1,21 @@
 import React from 'react';
 import "../Styles/Home.css"
+import "../Styles/Login.css"
+import "../Styles/Game.css"
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { placeBet } from '../api';
-//Note: this newest version is pushed to github but not online yet.
+
+/*Shows money as $10.00*/
+const formatMoney = (amount) => `$${Number(amount).toFixed(2)}`;
+
 const Home = ({ total, setTotal, token, username, logout }) =>{
     /*Setting all of the states that will be used throughout the betting program */
-    /*Problem: when I go off this page to login or create account, get back to a net 0
-    That said, I don't rly think we need to address this bc the database will
-    associate those values with an account and the button to get off the game 
-    page will likely be a logout, and the "home" page will likely be a login page*/
-    const [bet_amount, setBet_amount] = useState();
+    const [bet_amount, setBet_amount] = useState('');
     const [current_bet, setCurrent_bet] = useState(0);
     const [status, setStatus] = useState('');
     const [change, setChange] = useState(0);
+    const [betting, setBetting] = useState(false);
     const navigate = useNavigate();
 
     /*This is the RunGame function that does all of the work when bet is cast */
@@ -29,6 +31,7 @@ const Home = ({ total, setTotal, token, username, logout }) =>{
         }
         /*Logged in players bet through the server so their money gets saved*/
         if (token){
+            setBetting(true)
             try {
                 const result = await placeBet(token, numericAmount)
                 setStatus(result.won ? "WIN" : "LOSE")
@@ -38,66 +41,103 @@ const Home = ({ total, setTotal, token, username, logout }) =>{
             } catch (error) {
                 setStatus(error.message)
             }
+            setBetting(false)
             return
         }
         /*Guests play locally and their money resets on refresh*/
         const chance = Math.random()
         if (chance > 0.5){
             setStatus("WIN")
-            setChange(amount)
+            setChange(numericAmount)
             setTotal(total+numericAmount)
         } else{
             setStatus("LOSE")
-            setChange(-amount)
+            setChange(-numericAmount)
             setTotal(total-numericAmount)
         }
-        setCurrent_bet(bet_amount);
+        setCurrent_bet(numericAmount);
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        RunGame(bet_amount);
+    };
+
+    const isResult = status === "WIN" || status === "LOSE";
 
     return(
-        <>
-        <Link to="/MakeMoney">
-            <button>Make Money Here!</button>
-        </Link>
-        {/*Title and label at top of page*/}
-        <h1 className="title">Welcome to Slots For Tots!</h1>
-        <h2>Bet amount: {current_bet}</h2>
-        
-        {/*This is the input field for bet amount, sets the bet_amount variable to input, etc.*/}
-        <input
-            placeholder= "Place your bet here"
-            value = {bet_amount}
-            onChange={(e) => setBet_amount(e.target.value)}
-        />
+        <div className="login-page">
+            <div className="login-card">
+                {/*Who's playing, with log in/out on the right*/}
+                <div className="game-topbar">
+                    {token ? (
+                        <>
+                        <span>Logged in as <strong>{username}</strong></span>
+                        <button className="game-topbar-button" onClick={() => { logout(); navigate("/"); }}>Log Out</button>
+                        </>
+                    ) : (
+                        <>
+                        <span>Playing as <strong>Guest</strong></span>
+                        <Link to="/" className="game-topbar-button">Log In</Link>
+                        </>
+                    )}
+                </div>
 
-        {/*This is the button that sets the RunGame function in motion*/}
-        <button onClick={() => RunGame(bet_amount)}>Place Bet</button>
+                <h1 className="login-title">Slots For Tots</h1>
+                <p className="login-subtitle">Double or nothing. Feeling lucky?</p>
 
-        <h1 className="spacer"> . </h1>
+                <div className="game-balance">
+                    <div className="game-balance-label">Balance</div>
+                    <div className="game-balance-amount">{formatMoney(total)}</div>
+                </div>
 
-        {/*This is the labels that show the status, win, change in total, and total*/}
-        <h3>{status}</h3>
-        <h3>{change}</h3>
-        <h3>{total}</h3>
+                {/*The bet form. Pressing Enter also places the bet*/}
+                <form className="login-form" onSubmit={handleSubmit}>
+                    <label className="login-label">
+                        Your bet
+                        <div className="game-bet-input">
+                            <span>$</span>
+                            <input
+                            type="number"
+                            inputMode="decimal"
+                            min="0"
+                            step="0.01"
+                            placeholder="0.00"
+                            value={bet_amount}
+                            onChange={(e) => setBet_amount(e.target.value)}
+                            />
+                        </div>
+                    </label>
 
-        {token ? (
-            <>
-            <h3>Logged in as {username}</h3>
-            <button onClick={() => { logout(); navigate("/"); }}>Log Out</button>
-            </>
-        ) : (
-            <>
-            <Link to="/">
-                <button>Go to Login Page</button>
-            </Link>
-            <Link to="/CreateAccount">
-                <button>Go to Create Account Page</button>
-            </Link>
-            </>
-        )}
+                    <button type="submit" className="login-button login-button-primary" disabled={betting}>
+                        {betting ? "Spinning..." : "Place Bet"}
+                    </button>
 
-        </>
+                    {/*Shows WIN/LOSE, or a message if the bet wasn't allowed*/}
+                    {isResult && (
+                        <div className={`game-result ${status === "WIN" ? "game-result-win" : "game-result-lose"}`}>
+                            <div className="game-result-title">{status === "WIN" ? "YOU WIN!" : "YOU LOSE"}</div>
+                            <div className="game-result-detail">
+                                {change > 0 ? "+" : "−"}{formatMoney(Math.abs(change))} on a {formatMoney(current_bet)} bet
+                            </div>
+                        </div>
+                    )}
+                    {status && !isResult && <p className="login-error" role="alert">{status}</p>}
+                </form>
+
+                <div className="login-divider">need more money?</div>
+
+                <Link to="/MakeMoney" className="login-button login-button-secondary">
+                    Make Money →
+                </Link>
+
+                {!token && (
+                    <p className="game-guest-note">
+                        Guest money resets when you refresh. <Link to="/CreateAccount">Create an account</Link> to save it.
+                    </p>
+                )}
+            </div>
+        </div>
     )
 }
 

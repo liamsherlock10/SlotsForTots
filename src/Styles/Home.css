@@ -22,10 +22,6 @@ body {
     width: 90%; /* Responsive design */
   }
   
-  /*This is rly dumb lol*/
- .spacer {
-    color: #1a1a2e;
- }
   /* Buttons */
   button {
     background-color: #3a3a56; /* Muted blue-gray */

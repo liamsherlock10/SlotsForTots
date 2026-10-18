@@ -1,0 +1,128 @@
+/* Game page. The card, inputs, and buttons come from Login.css */
+
+/* Who's playing + log in/out, along the top of the card */
+.game-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #9a9ab8;
+}
+
+.game-topbar strong {
+    color: #e0e0e0;
+}
+
+.game-topbar-button {
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    color: #9a9ab8;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.game-topbar-button:hover {
+    color: #f5c542;
+    background: none;
+    text-decoration: none;
+}
+
+/* Big balance display */
+.game-balance {
+    margin-bottom: 24px;
+    padding: 16px;
+    text-align: center;
+    background-color: #1a1a2e;
+    border: 1px solid #34345a;
+    border-radius: 12px;
+}
+
+.game-balance-label {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #9a9ab8;
+}
+
+.game-balance-amount {
+    margin-top: 4px;
+    font-size: 40px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: #f5c542;
+}
+
+/* Bet input with a "$" in front */
+.game-bet-input {
+    position: relative;
+}
+
+.game-bet-input span {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #9a9ab8;
+}
+
+.login-label .game-bet-input input {
+    padding-left: 28px;
+}
+
+/* Hide the up/down arrows on number inputs */
+.game-bet-input input::-webkit-outer-spin-button,
+.game-bet-input input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.game-bet-input input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* WIN / LOSE box */
+.game-result {
+    padding: 14px;
+    text-align: center;
+    border-radius: 12px;
+}
+
+.game-result-win {
+    color: #6fe39a;
+    background-color: rgba(76, 201, 120, 0.12);
+    border: 1px solid rgba(76, 201, 120, 0.4);
+}
+
+.game-result-lose {
+    color: #ff8a8a;
+    background-color: rgba(229, 83, 83, 0.12);
+    border: 1px solid rgba(229, 83, 83, 0.4);
+}
+
+.game-result-title {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.game-result-detail {
+    margin-top: 4px;
+    font-size: 14px;
+    opacity: 0.85;
+}
+
+.game-guest-note {
+    margin: 16px 0 0;
+    text-align: center;
+    font-size: 13px;
+    color: #9a9ab8;
+}
+
+.game-guest-note a {
+    color: #f5c542;
+}
